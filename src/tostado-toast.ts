@@ -2,11 +2,13 @@ import { LitElement, css, html, type PropertyValues } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 
+export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'default';
+
 export interface Toast {
   id: number | string;
   title: string;
   description: string;
-  type?: 'success' | 'error' | 'warning' | 'info' | 'default';
+  type?: ToastType;
 }
 
 @customElement('tostado-toast')
@@ -314,9 +316,9 @@ export class TostadoToast extends LitElement {
     return html`
       <div class="toast-container" role="region" aria-label="Notifications">
         ${repeat(
-          this._internalToasts,
-          (toast) => toast.id,
-          (toast) => html`
+      this._internalToasts,
+      (toast) => toast.id,
+      (toast) => html`
             <div class="toast toast-${toast.type || 'default'}" role="status" aria-live="polite" data-toast-id="${toast.id}">
               <div class="toast-body">
                 ${this.getIcon(toast.type)}
@@ -340,7 +342,7 @@ export class TostadoToast extends LitElement {
               </div>
             </div>
           `
-        )}
+    )}
       </div>
     `;
   }
