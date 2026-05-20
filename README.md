@@ -6,6 +6,10 @@ Tostado works seamlessly across all modern frontend frameworks (React, Vue, Angu
 
 *Read this in other languages: [Español (Spanish)](README.es.md).*
 
+<p align="center">
+  <img src="./src/assets/tostado.png" alt="Tostado Toast Preview" width="600" />
+</p>
+
 ---
 
 ## Features

@@ -6,6 +6,10 @@ Tostado funciona sin problemas en todos los frameworks frontend modernos (React,
 
 *Leer esto en otros idiomas: [English (Inglés)](README.md).*
 
+<p align="center">
+  <img src="./src/assets/tostado.png" alt="Vista previa de Tostado Toast" width="600" />
+</p>
+
 ---
 
 ## Características
