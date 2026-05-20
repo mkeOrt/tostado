@@ -1,10 +1,20 @@
 {
   "name": "tostado",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "description": "A premium, lightweight, highly customizable toast notification web component built with Lit.",
   "type": "module",
   "main": "./dist/tostado.umd.cjs",
   "module": "./dist/tostado.js",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkeOrt/tostado.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mkeOrt/tostado/issues"
+  },
+  "homepage": "https://github.com/mkeOrt/tostado#readme",
+  "license": "MIT",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
