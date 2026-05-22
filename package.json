@@ -1,6 +1,6 @@
 {
   "name": "tostado",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "A premium, lightweight, highly customizable toast notification web component built with Lit.",
   "type": "module",
   "main": "./dist/tostado.umd.cjs",

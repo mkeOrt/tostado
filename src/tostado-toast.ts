@@ -7,7 +7,7 @@ export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'default';
 export interface Toast {
   id: number | string;
   title: string;
-  description: string;
+  description?: string;
   type?: ToastType;
 }
 

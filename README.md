@@ -1,8 +1,8 @@
 # Tostado 🍞
 
-A premium, lightweight, highly customizable toast notification web component built with [Lit](https://lit.dev/). 
+A premium, lightweight, highly customizable toast notification library built with [Lit](https://lit.dev/).
 
-Tostado works seamlessly across all modern frontend frameworks (React, Vue, Angular, Svelte) and vanilla JavaScript.
+Tostado works seamlessly across all modern frontend frameworks (React, Vue, Angular, Svelte) and vanilla JavaScript. Version 2.0 introduces a programmatic utility function that automatically mounts and manages the notification container under the hood, making implementation extremely plug-and-play.
 
 *Read this in other languages: [Español (Spanish)](README.es.md).*
 
@@ -14,11 +14,11 @@ Tostado works seamlessly across all modern frontend frameworks (React, Vue, Angu
 
 ## Features
 
+- ⚡ **Plug-and-play Utility**: Call `tostado(...)` from anywhere—no HTML setup required!
 - 💅 **Highly Customizable**: Style everything using CSS custom properties (variables).
-- 🧩 **Framework Agnostic**: Works anywhere custom elements are supported.
+- 🧩 **Framework Agnostic**: Works anywhere, with a programmatic API and a declarative Web Component.
 - 🦄 **Types First**: Fully written in TypeScript with auto-generated declaration files.
 - 🎨 **Theme-aware States**: Beautiful, clean default themes for `success`, `error`, `warning`, `info`, and `default`.
-- ⚡ **Performant & Lightweight**: Built on top of Lit for minimal footprint and optimal rendering speeds.
 - ♿ **Accessible**: Includes basic accessibility roles (`aria-live`, `role="status"`/`role="region"`) and keyboard-focusable close buttons.
 
 ---
@@ -40,9 +40,63 @@ yarn add tostado
 
 ---
 
-## Basic Usage
+## Basic Usage (Programmatic API)
 
-### 1. Register the component
+The recommended way to use Tostado in version 2.0+ is through the programmatic `tostado` API. It automatically handles mounting the container to the document body and managing notification state.
+
+### 1. Show a toast
+Import the function and call it. It automatically handles the container setup.
+
+```typescript
+import { tostado } from 'tostado';
+
+// Simple toast
+tostado('Notification', 'This is a default notification.');
+
+// Customizable options toast
+tostado({
+  title: 'Notification',
+  description: 'This is a default notification.',
+  type: 'default'
+});
+```
+
+### 2. Shorthand Helpers
+Shorthands are available for all built-in types:
+
+```typescript
+import { tostado } from 'tostado';
+
+// Using strings
+tostado.success('Success!', 'Your changes have been saved.');
+tostado.error('Error!', 'An unexpected error occurred.');
+tostado.warning('Warning!', 'Please check your input.');
+tostado.info('Info!', 'A new version is available.');
+
+// Using configuration objects
+tostado.success({
+  title: 'Success!',
+  description: 'Your changes have been saved.'
+});
+```
+
+### 3. Dismissing a toast
+Calling `tostado` returns a unique ID that you can use to dismiss the toast programmatically at any time:
+
+```typescript
+const toastId = tostado.info('Processing...', 'Please wait.');
+
+// Dismiss it later
+tostado.dismiss(toastId);
+```
+
+---
+
+## Advanced Usage (Declarative Web Component)
+
+If you prefer to manage the notification state yourself in your framework's state, you can declare the `<tostado-toast>` element manually:
+
+### 1. Import to register the component
 Simply import the package to register the `<tostado-toast>` custom element:
 
 ```typescript
@@ -56,40 +110,34 @@ Add the custom element to your page. It acts as a portal container for managing 
 <tostado-toast id="toast-container"></tostado-toast>
 ```
 
-### 3. Add and Manage Toasts
-The `<tostado-toast>` component receives notifications via the `toasts` property. Here is a Vanilla JS example of how to push toasts and listen for their dismissal:
+### 3. Manage State manually
+Pushes toasts via the `toasts` property and listen for the `remove-toast` event to sync your array:
 
 ```html
 <script type="module">
   import 'tostado';
 
   const container = document.getElementById('toast-container');
-  
-  // Array to hold active notifications
   let activeToasts = [];
 
-  // Function to add a toast
   function triggerToast(type, title, description) {
     const newToast = {
-      id: Date.now().toString(), // Must be unique
+      id: Date.now().toString(),
       title,
       description,
-      type // 'success', 'error', 'warning', 'info', or 'default'
+      type
     };
 
     activeToasts = [...activeToasts, newToast];
     container.toasts = activeToasts;
   }
 
-  // MUST listen to the 'remove-toast' event to update your state
+  // Sync state when a toast is closed or times out
   container.addEventListener('remove-toast', (event) => {
     const dismissedId = event.detail.id;
     activeToasts = activeToasts.filter(toast => toast.id !== dismissedId);
     container.toasts = activeToasts;
   });
-
-  // Example trigger:
-  triggerToast('success', 'Changes Saved!', 'Your workspace has been successfully synced.');
 </script>
 ```
 
@@ -100,81 +148,30 @@ The `<tostado-toast>` component receives notifications via the `toasts` property
 ### Vue 3
 ```html
 <script setup>
-import { ref } from 'vue';
-import 'tostado';
+import { tostado } from 'tostado';
 
-const toasts = ref([]);
-
-const showNotification = (type) => {
-  toasts.value = [...toasts.value, {
-    id: crypto.randomUUID(),
-    title: 'Success!',
-    description: 'Action completed successfully.',
-    type
-  }];
-};
-
-const handleRemove = (event) => {
-  toasts.value = toasts.value.filter(t => t.id !== event.detail.id);
+const notify = () => {
+  tostado.success('Vue Notification', 'Triggered programmatically!');
 };
 </script>
 
 <template>
-  <tostado-toast :toasts="toasts" @remove-toast="handleRemove"></tostado-toast>
-  <button @click="showNotification('success')">Show success</button>
+  <button @click="notify">Show Toast</button>
 </template>
 ```
 
 ### React
 ```jsx
-import React, { useState, useEffect, useRef } from 'react';
-import 'tostado';
+import React from 'react';
+import { tostado } from 'tostado';
 
 export function App() {
-  const [toasts, setToasts] = useState([]);
-  const containerRef = useRef(null);
-
-  const addToast = (type) => {
-    setToasts(prev => [
-      ...prev,
-      {
-        id: Math.random().toString(),
-        title: 'New Event',
-        description: 'Something happened!',
-        type
-      }
-    ]);
+  const notify = () => {
+    tostado.success('React Notification', 'Triggered programmatically!');
   };
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      container.toasts = toasts;
-    }
-  }, [toasts]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    
-    const handleRemove = (event) => {
-      setToasts(prev => prev.filter(t => t.id !== event.detail.id));
-    };
-
-    if (container) {
-      container.addEventListener('remove-toast', handleRemove);
-    }
-    return () => {
-      if (container) {
-        container.removeEventListener('remove-toast', handleRemove);
-      }
-    };
-  }, []);
-
   return (
-    <div>
-      <tostado-toast ref={containerRef}></tostado-toast>
-      <button onClick={() => addToast('info')}>Show Info</button>
-    </div>
+    <button onClick={notify}>Show Toast</button>
   );
 }
 ```
@@ -183,27 +180,60 @@ export function App() {
 
 ## API Reference
 
-### Component Properties
+### Programmatic Functions
+
+#### `tostado(options: ToastOptions | string, description?: string): string | number`
+Triggers a toast and returns its unique ID.
+- If passed a `string`, it represents the title.
+- If passed a `ToastOptions` object, you can configure the toast details.
+
+#### `tostado.success(options: ToastOptions | string, description?: string): string | number`
+Triggers a success style toast.
+
+#### `tostado.error(options: ToastOptions | string, description?: string): string | number`
+Triggers an error style toast.
+
+#### `tostado.warning(options: ToastOptions | string, description?: string): string | number`
+Triggers a warning style toast.
+
+#### `tostado.info(options: ToastOptions | string, description?: string): string | number`
+Triggers an info style toast.
+
+#### `tostado.dismiss(id: string | number): void`
+Dismisses the toast with the given ID.
+
+---
+
+### Declarative Component Properties
 
 | Property | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `toasts` | `Toast[]` | `[]` | The array of toast notifications to render. |
 | `timer` | `number` | `5000` | Duration in milliseconds before a toast is auto-dismissed. |
 
-### Component Events
+### Declarative Component Events
 
 | Event Name | Detail Type | Description |
 | :--- | :--- | :--- |
 | `remove-toast` | `{ id: string \| number }` | Fired when a toast is closed manually or its auto-dismiss timer expires. You **must** listen to this and filter your state's array to fully remove the toast. |
 
-### The `Toast` Interface
+### Interfaces & Types
 
 ```typescript
+export type ToastType = 'success' | 'error' | 'warning' | 'info' | 'default';
+
+export interface ToastOptions {
+  id?: number | string; // Optional unique ID
+  title: string;       // Bold title text
+  description?: string; // Detail description text
+  type?: ToastType;    // Toast theme
+}
+
 export interface Toast {
-  id: number | string; // Unique identifier (crucial for transitions)
-  title: string;       // Bold text title
-  description: string; // Detail description text
-  type?: 'success' | 'error' | 'warning' | 'info' | 'default'; // Theme styling type
+  id: number | string; // Unique ID (required)
+  title: string;
+  description?: string;
+  type?: ToastType;
 }
 ```
 
@@ -222,7 +252,7 @@ Tostado uses CSS Shadow DOM encapsulation but exposes a wide range of CSS Variab
 | `--tostado-toast-bottom` | `auto` | Bottom spacing of container |
 | `--tostado-toast-left` | `auto` | Left spacing of container |
 | `--tostado-toast-z-index` | `9999` | Z-index of container |
-| `--tostado-toast-width` | `350px` | Toast block width |
+| `--tostado-toast-width` | `350px` | Toast card width |
 | `--tostado-toast-radius` | `0.5rem` | Border radius |
 | `--tostado-toast-padding` | `1rem` | Interior padding |
 | `--tostado-toast-font` | `system-ui, ...` | Text Font family |
@@ -246,17 +276,7 @@ For type customization, the variables follow the pattern `--tostado-toast-{type}
 - `--tostado-toast-success-close-hover-color` (Default: `#166534`)
 - `--tostado-toast-success-close-hover-bg` (Default: `#dcfce7`)
 
-#### Error Theme Example
-- `--tostado-toast-error-bg` (Default: `#fef2f2`)
-- `--tostado-toast-error-border` (Default: `#fee2e2`)
-- `--tostado-toast-error-color` (Default: `#991b1b`)
-- `--tostado-toast-error-description-color` (Default: `#b91c1c`)
-- `--tostado-toast-error-icon-color` (Default: `#dc2626`)
-- `--tostado-toast-error-close-color` (Default: `#fca5a5`)
-- `--tostado-toast-error-close-hover-color` (Default: `#991b1b`)
-- `--tostado-toast-error-close-hover-bg` (Default: `#fee2e2`)
-
-*(The same pattern applies to `warning`, `info`, and `default` states. Feel free to inspect [tostado-toast.ts](file:///Users/mkeort/projects/tostado/src/tostado-toast.ts) to view all styles.)*
+*(The same pattern applies to `error`, `warning`, `info`, and `default` states. Feel free to inspect [tostado-toast.ts](file:///Users/mkeort/projects/tostado/src/tostado-toast.ts) to view all styles.)*
 
 ---
 

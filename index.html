@@ -1,77 +1,59 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tostado</title>
-    <link rel="stylesheet" href="./src/index.css" />
-    <script type="module" src="/src/tostado-toast.ts"></script>
-    <script type="module">
-      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 
-      createApp({
-        setup() {
-          const toasts = ref([]);
-          let toastCount = 0;
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tostado</title>
+  <link rel="stylesheet" href="./src/reset.css" />
+  <link rel="stylesheet" href="./src/index.css" />
+  <script type="module" src="/src/tostado-toast.ts"></script>
+  <script type="module">
+    import { tostado } from './src/toast.ts';
 
-          const addToast = (type = 'default') => {
-            toastCount++;
-            const titles = {
-              success: 'Success! Action Completed',
-              error: 'Error: Connection Failed',
-              warning: 'Warning: Resource Limit',
-              info: 'Info: Update Available',
-              default: 'Notification'
-            };
-            const descriptions = {
-              success: 'Your changes have been successfully saved to the cloud.',
-              error: 'Unable to connect to the server. Please check your network settings and try again.',
-              warning: 'Your workspace storage is at 85% capacity. Consider freeing up some space.',
-              info: 'A new version of the app is ready. Reload to apply updates.',
-              default: 'This is a standard informational notification message.'
-            };
+    const form = document.querySelector('.form');
 
-            toasts.value = [...toasts.value, {
-              id: Date.now().toString() + '-' + toastCount,
-              title: `${titles[type] || 'New Notification'} #${toastCount}`,
-              description: descriptions[type] || 'This is a dynamically generated toast notification from Vue 3.',
-              type: type
-            }];
-          };
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
 
-          const handleRemoveToast = (event) => {
-            const index = toasts.value.findIndex((t) => t.id === event.detail.id);
-            if (index !== -1) {
-              const newToasts = [...toasts.value];
-              newToasts.splice(index, 1);
-              toasts.value = newToasts;
-            }
-          };
+      const title = formData.get('title') || 'Notificación';
+      const description = formData.get('description') || '';
 
-          return {
-            toasts,
-            addToast,
-            handleRemoveToast
-          };
-        }
-      }).mount('#app');
-    </script>
-  </head>
-  <body>
-    <div id="app">
-      <tostado-toast :toasts="toasts" @remove-toast="handleRemoveToast"></tostado-toast>
-      <main>
-        <h1>Toast Notifications with Vue</h1>
-        <p>Click the buttons below to trigger different types of styled notifications.</p>
-        <div class="btn-group">
-          <button class="btn" @click="addToast('default')">Add Default</button>
-          <button class="btn btn-success" @click="addToast('success')">Add Success</button>
-          <button class="btn btn-error" @click="addToast('error')">Add Error</button>
-          <button class="btn btn-warning" @click="addToast('warning')">Add Warning</button>
-          <button class="btn btn-info" @click="addToast('info')">Add Info</button>
+      tostado.warning({
+        title,
+        description
+      });
+
+      // Clear form inputs
+      form.reset();
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <h3 class="card-title">Tostado</h3>
+      <form class="form">
+        <div class="input-field">
+          <label for="title">
+            Titulo
+          </label>
+          <input id="title" name="title" type="text">
         </div>
-      </main>
+        <div class="input-field">
+          <label for="description">
+            Descripcion
+          </label>
+          <input id="description" name="description" type="text">
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-  </body>
+  </div>
+
+</body>
+
 </html>
