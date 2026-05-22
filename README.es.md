@@ -258,9 +258,14 @@ Tostado utiliza la encapsulación de Shadow DOM, pero expone una amplia gama de 
 | `--tostado-toast-font` | `system-ui, ...` | Tipografía (font-family) |
 | `--tostado-toast-shadow` | `0 10px 15px -3px ...` | Sombra de caja estándar |
 | `--tostado-toast-hover-shadow` | `0 20px 25px -5px ...` | Sombra al pasar el cursor (hover) |
-| `--tostado-toast-border` | `1px solid #e5e7eb` | Borde estándar |
-| `--tostado-toast-bg` | `#ffffff` | Fondo de tarjeta estándar |
-| `--tostado-toast-color` | `#1f2937` | Color de texto estándar |
+| `--tostado-toast-base-border` | `1px solid #e5e7eb` | Borde base de fallback para todos los estados |
+| `--tostado-toast-base-bg` | `#ffffff` | Fondo base de fallback para todos los estados |
+| `--tostado-toast-base-color` | `#1f2937` | Color de texto base de fallback para todos los estados |
+| `--tostado-toast-description-color` | `#4b5563` | Color de descripción base de fallback |
+| `--tostado-toast-close-color` | `#9ca3af` | Color del botón de cierre base de fallback |
+| `--tostado-toast-close-hover-color` | `inherit` | Color del botón de cierre al pasar el cursor base de fallback |
+| `--tostado-toast-close-hover-bg` | `rgba(0, 0, 0, 0.05)` | Fondo del botón de cierre al pasar el cursor base de fallback |
+| `--tostado-toast-icon-color` | `inherit` | Color del icono base de fallback |
 
 ### Personalización de Estados y Temas
 

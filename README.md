@@ -258,9 +258,14 @@ Tostado uses CSS Shadow DOM encapsulation but exposes a wide range of CSS Variab
 | `--tostado-toast-font` | `system-ui, ...` | Text Font family |
 | `--tostado-toast-shadow` | `0 10px 15px -3px ...` | Standard box-shadow |
 | `--tostado-toast-hover-shadow` | `0 20px 25px -5px ...` | Box-shadow on hover |
-| `--tostado-toast-border` | `1px solid #e5e7eb` | Standard border |
-| `--tostado-toast-bg` | `#ffffff` | Standard background |
-| `--tostado-toast-color` | `#1f2937` | Standard text color |
+| `--tostado-toast-base-border` | `1px solid #e5e7eb` | Base fallback border for all states |
+| `--tostado-toast-base-bg` | `#ffffff` | Base fallback background for all states |
+| `--tostado-toast-base-color` | `#1f2937` | Base fallback text color for all states |
+| `--tostado-toast-description-color` | `#4b5563` | Base fallback description text color |
+| `--tostado-toast-close-color` | `#9ca3af` | Base fallback close button color |
+| `--tostado-toast-close-hover-color` | `inherit` | Base fallback close button color on hover |
+| `--tostado-toast-close-hover-bg` | `rgba(0, 0, 0, 0.05)` | Base fallback close button background on hover |
+| `--tostado-toast-icon-color` | `inherit` | Base fallback icon color |
 
 ### State & Type Customization
 

@@ -90,10 +90,9 @@ export class TostadoToast extends LitElement {
       pointer-events: auto;
       box-shadow: var(--tostado-toast-shadow, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1));
       padding: var(--tostado-toast-padding, 1rem);
-      border: var(--tostado-toast-border, 1px solid #e5e7eb);
       border-radius: var(--tostado-toast-radius, 0.5rem);
-      background: var(--tostado-toast-bg, #ffffff);
-      color: var(--tostado-toast-color, #1f2937);
+      background: var(--tostado-toast-base-bg, #ffffff);
+      color: var(--tostado-toast-base-color, #1f2937);
       width: var(--tostado-toast-width, 350px);
       max-width: 100%;
       font-family: var(--tostado-toast-font, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
@@ -167,104 +166,109 @@ export class TostadoToast extends LitElement {
       outline-offset: 2px;
     }
 
+    .close-button:hover {
+      color: var(--tostado-toast-close-hover-color, inherit);
+      background-color: var(--tostado-toast-close-hover-bg, rgba(0, 0, 0, 0.05));
+    }
+
     /* Success Toast Styles */
     .toast.toast-success {
-      background: var(--tostado-toast-success-bg, #f0fdf4);
-      border-color: var(--tostado-toast-success-border, #bbf7d0);
-      color: var(--tostado-toast-success-color, #166534);
+      background: var(--tostado-toast-success-bg, var(--tostado-toast-base-bg, #f0fdf4));
+      border: var(--tostado-toast-success-border, var(--tostado-toast-base-border, 1px solid #bbf7d0));
+      color: var(--tostado-toast-success-color, var(--tostado-toast-base-color, #166534));
     }
     .toast.toast-success .toast-description {
-      color: var(--tostado-toast-success-description-color, #15803d);
+      color: var(--tostado-toast-success-description-color, var(--tostado-toast-description-color, #15803d));
     }
     .toast.toast-success .close-button {
-      color: var(--tostado-toast-success-close-color, #86efac);
+      color: var(--tostado-toast-success-close-color, var(--tostado-toast-close-color, #86efac));
     }
     .toast.toast-success .close-button:hover {
-      color: var(--tostado-toast-success-close-hover-color, #166534);
-      background-color: var(--tostado-toast-success-close-hover-bg, #dcfce7);
+      color: var(--tostado-toast-success-close-hover-color, var(--tostado-toast-close-hover-color, #166534));
+      background-color: var(--tostado-toast-success-close-hover-bg, var(--tostado-toast-close-hover-bg, #dcfce7));
     }
     .toast.toast-success .toast-icon {
-      color: var(--tostado-toast-success-icon-color, #16a34a);
+      color: var(--tostado-toast-success-icon-color, var(--tostado-toast-icon-color, #16a34a));
     }
 
     /* Error Toast Styles */
     .toast.toast-error {
-      background: var(--tostado-toast-error-bg, #fef2f2);
-      border-color: var(--tostado-toast-error-border, #fee2e2);
-      color: var(--tostado-toast-error-color, #991b1b);
+      background: var(--tostado-toast-error-bg, var(--tostado-toast-base-bg, #fef2f2));
+      border: var(--tostado-toast-error-border, var(--tostado-toast-base-border, 1px solid #fee2e2));
+      color: var(--tostado-toast-error-color, var(--tostado-toast-base-color, #991b1b));
     }
     .toast.toast-error .toast-description {
-      color: var(--tostado-toast-error-description-color, #b91c1c);
+      color: var(--tostado-toast-error-description-color, var(--tostado-toast-description-color, #b91c1c));
     }
     .toast.toast-error .close-button {
-      color: var(--tostado-toast-error-close-color, #fca5a5);
+      color: var(--tostado-toast-error-close-color, var(--tostado-toast-close-color, #fca5a5));
     }
     .toast.toast-error .close-button:hover {
-      color: var(--tostado-toast-error-close-hover-color, #991b1b);
-      background-color: var(--tostado-toast-error-close-hover-bg, #fee2e2);
+      color: var(--tostado-toast-error-close-hover-color, var(--tostado-toast-close-hover-color, #991b1b));
+      background-color: var(--tostado-toast-error-close-hover-bg, var(--tostado-toast-close-hover-bg, #fee2e2));
     }
     .toast.toast-error .toast-icon {
-      color: var(--tostado-toast-error-icon-color, #dc2626);
+      color: var(--tostado-toast-error-icon-color, var(--tostado-toast-icon-color, #dc2626));
     }
 
     /* Warning Toast Styles */
     .toast.toast-warning {
-      background: var(--tostado-toast-warning-bg, #fffbeb);
-      border-color: var(--tostado-toast-warning-border, #fef3c7);
-      color: var(--tostado-toast-warning-color, #92400e);
+      background: var(--tostado-toast-warning-bg, var(--tostado-toast-base-bg, #fffbeb));
+      border: var(--tostado-toast-warning-border, var(--tostado-toast-base-border, 1px solid #fef3c7));
+      color: var(--tostado-toast-warning-color, var(--tostado-toast-base-color, #92400e));
     }
     .toast.toast-warning .toast-description {
-      color: var(--tostado-toast-warning-description-color, #b45309);
+      color: var(--tostado-toast-warning-description-color, var(--tostado-toast-description-color, #b45309));
     }
     .toast.toast-warning .close-button {
-      color: var(--tostado-toast-warning-close-color, #fcd34d);
+      color: var(--tostado-toast-warning-close-color, var(--tostado-toast-close-color, #fcd34d));
     }
     .toast.toast-warning .close-button:hover {
-      color: var(--tostado-toast-warning-close-hover-color, #92400e);
-      background-color: var(--tostado-toast-warning-close-hover-bg, #fef3c7);
+      color: var(--tostado-toast-warning-close-hover-color, var(--tostado-toast-close-hover-color, #92400e));
+      background-color: var(--tostado-toast-warning-close-hover-bg, var(--tostado-toast-close-hover-bg, #fef3c7));
     }
     .toast.toast-warning .toast-icon {
-      color: var(--tostado-toast-warning-icon-color, #d97706);
+      color: var(--tostado-toast-warning-icon-color, var(--tostado-toast-icon-color, #d97706));
     }
 
     /* Info Toast Styles */
     .toast.toast-info {
-      background: var(--tostado-toast-info-bg, #eff6ff);
-      border-color: var(--tostado-toast-info-border, #dbeafe);
-      color: var(--tostado-toast-info-color, #1e40af);
+      background: var(--tostado-toast-info-bg, var(--tostado-toast-base-bg, #eff6ff));
+      border: var(--tostado-toast-info-border, var(--tostado-toast-base-border, 1px solid #dbeafe));
+      color: var(--tostado-toast-info-color, var(--tostado-toast-base-color, #1e40af));
     }
     .toast.toast-info .toast-description {
-      color: var(--tostado-toast-info-description-color, #1d4ed8);
+      color: var(--tostado-toast-info-description-color, var(--tostado-toast-description-color, #1d4ed8));
     }
     .toast.toast-info .close-button {
-      color: var(--tostado-toast-info-close-color, #93c5fd);
+      color: var(--tostado-toast-info-close-color, var(--tostado-toast-close-color, #93c5fd));
     }
     .toast.toast-info .close-button:hover {
-      color: var(--tostado-toast-info-close-hover-color, #1e40af);
-      background-color: var(--tostado-toast-info-close-hover-bg, #dbeafe);
+      color: var(--tostado-toast-info-close-hover-color, var(--tostado-toast-close-hover-color, #1e40af));
+      background-color: var(--tostado-toast-info-close-hover-bg, var(--tostado-toast-close-hover-bg, #dbeafe));
     }
     .toast.toast-info .toast-icon {
-      color: var(--tostado-toast-info-icon-color, #2563eb);
+      color: var(--tostado-toast-info-icon-color, var(--tostado-toast-icon-color, #2563eb));
     }
 
     /* Default Toast Styles */
     .toast.toast-default {
-      background: var(--tostado-toast-default-bg, #ffffff);
-      border-color: var(--tostado-toast-default-border, #e5e7eb);
-      color: var(--tostado-toast-default-color, #1f2937);
+      background: var(--tostado-toast-default-bg, var(--tostado-toast-base-bg, #ffffff));
+      border: var(--tostado-toast-default-border, var(--tostado-toast-base-border, 1px solid #e5e7eb));
+      color: var(--tostado-toast-default-color, var(--tostado-toast-base-color, #1f2937));
     }
     .toast.toast-default .toast-description {
-      color: var(--tostado-toast-default-description-color, #4b5563);
+      color: var(--tostado-toast-default-description-color, var(--tostado-toast-description-color, #4b5563));
     }
     .toast.toast-default .close-button {
-      color: var(--tostado-toast-default-close-color, #9ca3af);
+      color: var(--tostado-toast-default-close-color, var(--tostado-toast-close-color, #9ca3af));
     }
     .toast.toast-default .close-button:hover {
-      color: var(--tostado-toast-default-close-hover-color, #1f2937);
-      background-color: var(--tostado-toast-default-close-hover-bg, #f3f4f6);
+      color: var(--tostado-toast-default-close-hover-color, var(--tostado-toast-close-hover-color, #1f2937));
+      background-color: var(--tostado-toast-default-close-hover-bg, var(--tostado-toast-close-hover-bg, #f3f4f6));
     }
     .toast.toast-default .toast-icon {
-      color: var(--tostado-toast-default-icon-color, #6b7280);
+      color: var(--tostado-toast-default-icon-color, var(--tostado-toast-icon-color, #6b7280));
     }
   `;
 
